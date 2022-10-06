@@ -44,7 +44,7 @@ public class Playercontroller : MonoBehaviour
         direction.x = Input.GetAxis("Horizontal") * Time.deltaTime * IMPULSE;
         direction.y = Input.GetAxis("Vertical") * Time.deltaTime * IMPULSE;
 
-        gasolinaActual = gasolinaActual - 1f * Time.deltaTime;
+        gasolinaActual = gasolinaActual - 10f * Time.deltaTime;
         labelFuel.text = gasolinaActual.ToString("00") + "%";
 
 
