@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Playercontroller : MonoBehaviour
 {
@@ -8,13 +9,23 @@ public class Playercontroller : MonoBehaviour
     Vector2 direction;
 
     [SerializeField]
-    float impulse = 2f;
-    //Start is called before the first frame update
+    float IMPULSE = 2f;
+
+    [SerializeField]
+    TextMeshProUGUI labelFuel;
+
+    
+    float gasolinaActual = 100f;
+
+
+    [SerializeField]
+    GameObject prefabParticles;
+
     void Start ()
     {
-    
-    
-    body = GetComponent<Rigidbody2D>();
+
+        gasolinaActual = 100f;
+        body = GetComponent<Rigidbody2D>();
     
     
     }
@@ -23,21 +34,43 @@ public class Playercontroller : MonoBehaviour
          
     
 
-    // Update is called once per frame
+   
     void Update()
     {
 
 
+        
+        direction.x = Input.GetAxis ("Horizontal") * Time.deltaTime * IMPULSE;
+        direction.y = Input.GetAxis ("Vertical") * Time.deltaTime * IMPULSE;
 
-        direction.x = Input.GetAxis ("Horizontal") * Time.deltaTime * impulse;
-        direction.y = Input.GetAxis ("Vertical") * Time.deltaTime * impulse;
+        gasolinaActual = gasolinaActual - 0.5f * Time.deltaTime;
+        labelFuel.text = gasolinaActual. ToString("00") + "%";
+
 
     }
     private void FixedUpdate()
     {
 
-      body.AddForce(direction, ForceMode2D.Impulse);
-    
+        body.AddForce(direction, ForceMode2D.Impulse);
+    }
+      private void OnTriggerEnter2D(Collider2D collision)
+
+    { 
+        if ( collision.tag =="Fuel")
+        {
+            gasolinaActual += 10f;
+            if (gasolinaActual > 100f)
+            { 
+                gasolinaActual = 100f; 
+            
+            }
+
+            Instantiate(prefabParticles, collision.transform.position, collision.transform.
+                rotation);
+            Destroy(collision.gameObject);
+
+
+        }
     }
     
 }
