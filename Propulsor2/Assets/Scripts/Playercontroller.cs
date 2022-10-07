@@ -49,7 +49,7 @@ public class Playercontroller : MonoBehaviour
         direction.x = Input.GetAxis("Horizontal") * Time.deltaTime * IMPULSE;
         direction.y = Input.GetAxis("Vertical") * Time.deltaTime * IMPULSE;
 
-        gasolinaActual = gasolinaActual - 1f * Time.deltaTime;
+        gasolinaActual = gasolinaActual - 3f * Time.deltaTime;
         labelFuel.text = gasolinaActual.ToString("00") + "%";
 
 
@@ -77,14 +77,12 @@ public class Playercontroller : MonoBehaviour
                 gasolinaActual = 100f;
 
             }
-            //reproducir sonido
             collision.GetComponent<AudioSource>().Play();
-            //desactivar colisiones
             collision.enabled = false;
             //creat particulas
             Instantiate(prefabParticles, collision.transform.position, collision.transform.rotation);
             //destruirlo en 0.2segundos
-            Destroy(collision.gameObject,0.2f);
+            Destroy(collision.gameObject,0.5f);
 
 
         }
